@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import logo from './assets/setting1.png'
 import jobIcon from './assets/job-icon.png'
 import rightArrow from './assets/right-arrow.png'
@@ -6,8 +6,8 @@ import notification from "./assets/notification.png"
 import Manish from './assets/Manish.jpg'
 import search from './assets/search1.png'
 import price from './assets/price.png'
-import experience from './assets/experience.png'
-import location from './assets/location.png'
+import experienceIcon from './assets/experience.png'
+import locationIcon from './assets/location.png'
 import group from './assets/group.png'
 
 function App() {
@@ -17,10 +17,12 @@ function App() {
   const [isJobRound, setIsJobRound] = useState(false);
 
   const [position, setPosition] = useState('');
-  const [location, setLocation] = useState('');
-  const[minSalary, setMinSalary] = useState('');
-  const[maxSalary, setMaxSalary] = useState('');
-  const[experience, setExperience] = useState('');
+  const [location, setLocation] = useState('Bengaluru');
+  const [minSalary, setMinSalary] = useState('15000');
+  const [maxSalary, setMaxSalary] = useState('');
+  const [experience, setExperience] = useState('');
+
+  const [jobs, setJobs] = useState([]);
 
   const toggleIsCreating = () => {
     setIsCreating(isCreating => !isCreating);
@@ -42,12 +44,53 @@ function App() {
   }
 
   const handleSubmit = () => {
-    console.log("position: ", position);
-    console.log("location: " + location);
-    console.log("minSalary: " + minSalary);
-    console.log("maxSalary: " + maxSalary);
-    console.log("experience: " + experience);
+    // console.log("position: ", position);
+    // console.log("location: " + location);
+    // console.log("minSalary: " + minSalary);
+    // console.log("maxSalary: " + maxSalary);
+    // console.log("experience: " + experience);
+
+    const data = {
+      position: position,
+      location: location,
+      minSalary: minSalary,
+      maxSalary: maxSalary,
+      experience: experience
+    };
+
+    fetch('http://localhost:5000/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        setIsJobRound(false);
+        setIsJobApplication(false);
+        setIsJobDescription(false);
+        setIsCreating(false);
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/');
+        const data = await response.json();
+        setJobs(data);
+      } catch (error) {
+        console.log('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [handleSubmit]);
 
   return (
     <>
@@ -109,204 +152,47 @@ function App() {
             </div>
           </div>
 
-          <div className=' grid grid-rows-2 grid-flow-col gap-4 p-5'>
-            <div className='w-[286px] h-[300px] bg-[#FFF] rounded-lg p-4 gap-4'>
-              <div className='flex flex-row justify-between my-3'>
-                <div className='flex flex-row w-[60px] h-[55px] bg-[#F6F9FE] rounded-full justify-between'>
-                  <div>
-                    <img src="https://shorturl.at/rGHMZ" alt="" />
+          <div className=' grid grid-flow-rows grid-cols-4 gap-10 p-5'>
+            {jobs && jobs.map(job => (
+              <div className='w-[286px] h-[300px] bg-[#FFF] rounded-lg p-4 gap-4'>
+                <div className='flex flex-row justify-between my-3'>
+                  <div className='flex flex-row w-[60px] h-[55px] bg-[#F6F9FE] rounded-full justify-between'>
+                    <div>
+                      <img src="https://shorturl.at/rGHMZ" alt="" />
+                    </div>
+                  </div>
+                  <div className='p-4'>
+                    <img className='w-[5px] h-[15px]' src={group} alt="" srcset="" />
                   </div>
                 </div>
-                <div className='p-4'>
-                  <img className='w-[5px] h-[15px]' src={group} alt="" srcset="" />
-                </div>
-              </div>
-              <div className='mb-[20px]'>
-                <p className='font-semibold'>React Js Developer</p>
-              </div>
-
-              <div className='flex flex-col gap-4 mt-2'>
-                <div className='flex flex-row gap-4'>
-                  <img src={location} alt="" />
-                  <p>Indore, Mp, India</p>
+                <div className='mb-[20px]'>
+                  <p className='font-semibold'>{job.position}</p>
                 </div>
 
-                <div className='flex flex-row gap-4'>
-                  <img src={price} alt="" />
-                  <p>10,000.00 - 15,000.00</p>
-                </div>
+                <div className='flex flex-col gap-4 mt-2'>
+                  <div className='flex flex-row gap-4'>
+                    <img src={locationIcon} alt="" />
+                    <p>{job.location}</p>
+                  </div>
 
-                <div className='flex flex-row gap-4'>
-                  <img src={experience} alt="" />
-                  <p>2 Year Experience</p>
-                </div>
-              </div>
+                  <div className='flex flex-row gap-4'>
+                    <img src={price} alt="" />
+                    <p>{job.minSalary} - {job.maxSalary}</p>
+                  </div>
 
-              <div className='flex flex-row gap-2 mt-4'>
-                <button class="bg-[#5956E9] text-white w-[79px] h-[24px] rounded-lg text-sm">Application</button>
-                <button class="bg-[#FF8600] text-white w-[79px] h-[24px]  rounded-lg text-sm">In Process</button>
-                <button class="bg-[#3CD856] text-white w-[79px] h-[24px]  rounded-lg text-sm">Selected</button>
-              </div>
-            </div>
-
-            <div className='w-[286px] h-[300px] bg-[#FFF] rounded-lg p-4 gap-4'>
-              <div className='flex flex-row justify-between my-3'>
-                <div className='flex flex-row w-[60px] h-[55px] bg-[#F6F9FE] rounded-full justify-between'>
-                  <div>
-                    <img src="https://shorturl.at/rGHMZ" alt="" />
+                  <div className='flex flex-row gap-4'>
+                    <img src={experienceIcon} alt="" />
+                    <p>{job.experience}</p>
                   </div>
                 </div>
-                <div className='p-4'>
-                  <img className='w-[5px] h-[15px]' src={group} alt="" srcset="" />
+
+                <div className='flex flex-row gap-2 mt-4'>
+                  <button class="bg-[#5956E9] text-white w-[79px] h-[24px] rounded-lg text-sm">Application</button>
+                  <button class="bg-[#FF8600] text-white w-[79px] h-[24px]  rounded-lg text-sm">In Process</button>
+                  <button class="bg-[#3CD856] text-white w-[79px] h-[24px]  rounded-lg text-sm">Selected</button>
                 </div>
               </div>
-              <div className='mb-[20px]'>
-                <p className='font-semibold'>React Js Developer</p>
-              </div>
-
-              <div className='flex flex-col gap-4 mt-2'>
-                <div className='flex flex-row gap-4'>
-                  <img src={location} alt="" />
-                  <p>Indore, Mp, India</p>
-                </div>
-
-                <div className='flex flex-row gap-4'>
-                  <img src={price} alt="" />
-                  <p>10,000.00 - 15,000.00</p>
-                </div>
-
-                <div className='flex flex-row gap-4'>
-                  <img src={experience} alt="" />
-                  <p>2 Year Experience</p>
-                </div>
-              </div>
-
-              <div className='flex flex-row gap-2 mt-4'>
-                <button class="bg-[#5956E9] text-white w-[79px] h-[24px] rounded-lg text-sm">Application</button>
-                <button class="bg-[#FF8600] text-white w-[79px] h-[24px]  rounded-lg text-sm">In Process</button>
-                <button class="bg-[#3CD856] text-white w-[79px] h-[24px]  rounded-lg text-sm">Selected</button>
-              </div>
-            </div>
-
-            <div className='w-[286px] h-[300px] bg-[#FFF] rounded-lg p-4 gap-4'>
-              <div className='flex flex-row justify-between my-3'>
-                <div className='flex flex-row w-[60px] h-[55px] bg-[#F6F9FE] rounded-full justify-between'>
-                  <div>
-                    <img src="https://shorturl.at/rGHMZ" alt="" />
-                  </div>
-                </div>
-                <div className='p-4'>
-                  <img className='w-[5px] h-[15px]' src={group} alt="" srcset="" />
-                </div>
-              </div>
-              <div className='mb-[20px]'>
-                <p className='font-semibold'>React Js Developer</p>
-              </div>
-
-              <div className='flex flex-col gap-4 mt-2'>
-                <div className='flex flex-row gap-4'>
-                  <img src={location} alt="" />
-                  <p>Indore, Mp, India</p>
-                </div>
-
-                <div className='flex flex-row gap-4'>
-                  <img src={price} alt="" />
-                  <p>10,000.00 - 15,000.00</p>
-                </div>
-
-                <div className='flex flex-row gap-4'>
-                  <img src={experience} alt="" />
-                  <p>2 Year Experience</p>
-                </div>
-              </div>
-
-              <div className='flex flex-row gap-2 mt-4'>
-                <button class="bg-[#5956E9] text-white w-[79px] h-[24px] rounded-lg text-sm">Application</button>
-                <button class="bg-[#FF8600] text-white w-[79px] h-[24px]  rounded-lg text-sm">In Process</button>
-                <button class="bg-[#3CD856] text-white w-[79px] h-[24px]  rounded-lg text-sm">Selected</button>
-              </div>
-            </div>
-
-            <div className='w-[286px] h-[300px] bg-[#FFF] rounded-lg p-4 gap-4'>
-              <div className='flex flex-row justify-between my-3'>
-                <div className='flex flex-row w-[60px] h-[55px] bg-[#F6F9FE] rounded-full justify-between'>
-                  <div>
-                    <img src="https://shorturl.at/rGHMZ" alt="" />
-                  </div>
-                </div>
-                <div className='p-4'>
-                  <img className='w-[5px] h-[15px]' src={group} alt="" srcset="" />
-                </div>
-              </div>
-              <div className='mb-[20px]'>
-                <p className='font-semibold'>React Js Developer</p>
-              </div>
-
-              <div className='flex flex-col gap-4 mt-2'>
-                <div className='flex flex-row gap-4'>
-                  <img src={location} alt="" />
-                  <p>Indore, Mp, India</p>
-                </div>
-
-                <div className='flex flex-row gap-4'>
-                  <img src={price} alt="" />
-                  <p>10,000.00 - 15,000.00</p>
-                </div>
-
-                <div className='flex flex-row gap-4'>
-                  <img src={experience} alt="" />
-                  <p>2 Year Experience</p>
-                </div>
-              </div>
-
-              <div className='flex flex-row gap-2 mt-4'>
-                <button class="bg-[#5956E9] text-white w-[79px] h-[24px] rounded-lg text-sm">Application</button>
-                <button class="bg-[#FF8600] text-white w-[79px] h-[24px]  rounded-lg text-sm">In Process</button>
-                <button class="bg-[#3CD856] text-white w-[79px] h-[24px]  rounded-lg text-sm">Selected</button>
-              </div>
-            </div>
-
-
-            <div className='w-[286px] h-[300px] bg-[#FFF] rounded-lg p-4 gap-4'>
-              <div className='flex flex-row justify-between my-3'>
-                <div className='flex flex-row w-[60px] h-[55px] bg-[#F6F9FE] rounded-full justify-between'>
-                  <div>
-                    <img src="https://shorturl.at/rGHMZ" alt="" />
-                  </div>
-                </div>
-                <div className='p-4'>
-                  <img className='w-[5px] h-[15px]' src={group} alt="" srcset="" />
-                </div>
-              </div>
-              <div className='mb-[20px]'>
-                <p className='font-semibold'>React Js Developer</p>
-              </div>
-
-              <div className='flex flex-col gap-4 mt-2'>
-                <div className='flex flex-row gap-4'>
-                  <img src={location} alt="" />
-                  <p>Indore, Mp, India</p>
-                </div>
-
-                <div className='flex flex-row gap-4'>
-                  <img src={price} alt="" />
-                  <p>10,000.00 - 15,000.00</p>
-                </div>
-
-                <div className='flex flex-row gap-4'>
-                  <img src={experience} alt="" />
-                  <p>2 Year Experience</p>
-                </div>
-              </div>
-
-              <div className='flex flex-row gap-2 mt-4'>
-                <button class="bg-[#5956E9] text-white w-[79px] h-[24px] rounded-lg text-sm">Application</button>
-                <button class="bg-[#FF8600] text-white w-[79px] h-[24px]  rounded-lg text-sm">In Process</button>
-                <button class="bg-[#3CD856] text-white w-[79px] h-[24px]  rounded-lg text-sm">Selected</button>
-              </div>
-            </div>
-
-
+            ))}
           </div>
         </div>
 
@@ -403,14 +289,12 @@ function App() {
             </div>
             <div class='flex flex-row gap-[100px]'>
               <div class="flex flex-col gap-2">
-                <label for="position-name" class="font-bold">Job Pipeline</label>
-                <select name="company-name" id="cars" class="w-[350px] h-[52px] bg-[#F5F4F8]  rounded-xl p-4 text-gray-400">
-                  <option value="Amazon">Default job pipeline</option>
-                </select>
+                <label for="position-name" class="font-bold">Experience</label>
+                <input type="text" placeholder="Enter your Experience..." class="w-[350px] h-[52px] bg-[#F5F4F8]  rounded-xl p-4" onChange={(e) => setExperience(e.target.value)} />
               </div>
               <div class="flex flex-col gap-2">
                 <label for="position-name" class="font-bold">Add Location</label>
-                <select name="company-name" id="cars" class="w-[350px] h-[52px] bg-[#F5F4F8]  rounded-xl p-4 text-gray-400">
+                <select name="company-name" id="cars" class="w-[350px] h-[52px] bg-[#F5F4F8]  rounded-xl p-4 text-gray-400" onChange={(e) => setLocation(e.target.value)}>
                   <option value="Bengaluru">Bengaluru</option>
                   <option value="Pune">Pune</option>
                   <option value="Noida">Noida</option>
@@ -428,7 +312,7 @@ function App() {
               </div>
               <div class="flex flex-col gap-2">
                 <label for="position-name" class="font-bold">Add Minimum Salary</label>
-                <select name="company-name" id="cars" class="w-[350px] h-[52px] bg-[#F5F4F8]  rounded-xl p-4 text-gray-400">
+                <select name="company-name" id="cars" class="w-[350px] h-[52px] bg-[#F5F4F8]  rounded-xl p-4 text-gray-400" onChange={(e) => setMinSalary(e.target.value)}>
                   <option value="15000">15000</option>
                   <option value="20000">20000</option>
                   <option value="25000">25000</option>
@@ -444,15 +328,6 @@ function App() {
               <div class="flex flex-col gap-2">
                 <label for="position-name" class="font-bold">currency</label>
                 <input type="text" placeholder="Enter currency..." class="w-[350px] h-[52px] bg-[#F5F4F8]  rounded-xl p-4" />
-              </div>
-            </div>
-            <div class='flex flex-row items-start justify-start'>
-              <div class="flex flex-col gap-2 justify-start items-start">
-                <label for="position-name" class="font-bold">Select Frequency</label>
-                <select name="company-name" id="cars" class="w-[350px] h-[52px] bg-[#F5F4F8]  rounded-xl p-4 text-gray-400">
-                  <option value="Monthly">Monthly</option>
-                  <option value="Yearly">Yearly</option>
-                </select>
               </div>
             </div>
 
@@ -538,7 +413,7 @@ function App() {
                     setIsJobRound(false);
                     setIsCreating(false);
                   }}>
-                    <img src="https://res.cloudinary.com/dvxwjcwcm/image/upload/v1705755425/dipympb4ztszzwtt9jxd.png" alt="" srcset=""/>
+                    <img src="https://res.cloudinary.com/dvxwjcwcm/image/upload/v1705755425/dipympb4ztszzwtt9jxd.png" alt="" srcset="" />
                   </div>
                 </div>
               </div>
