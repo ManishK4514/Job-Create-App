@@ -232,8 +232,8 @@ function App() {
 
 
       {isJobApplication && (
-        <div class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50">
-          <div class="relative flex h-[1016px] w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10">
+        <div class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 p-8">
+          <div class="relative flex h-full w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10">
             <div class="flex w-full flex-row items-center text-2xl font-bold">
               <div class="grid w-full grid-cols-3">
                 <div></div>
@@ -338,8 +338,8 @@ function App() {
 
 
       {isJobDescription && (
-        <div class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50">
-          <div class="relative flex h-[1016px] w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10">
+        <div class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 p-11">
+          <div class="relative flex h-full w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10">
             <div class="flex w-full flex-row items-center text-2xl font-bold">
               <div class="grid w-full grid-cols-3">
                 <div></div>
@@ -398,8 +398,8 @@ function App() {
       )}
 
       {isJobRound && (
-        <div class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50">
-          <div class="relative flex h-[1016px] w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10">
+        <div class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 p-11">
+          <div class="relative flex h-full w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10">
             <div class="flex w-full flex-row items-center text-2xl font-bold">
               <div class="grid w-full grid-cols-3">
                 <div></div>
@@ -483,11 +483,11 @@ function App() {
             <div class='flex flex-row gap-[100px]'>
               <div class="flex flex-col gap-2">
                 <label for="position-name" class="font-bold">Finalise Questioner</label>
-                <input type="text" class="w-[350px] h-[145px] bg-[#F5F4F8]  rounded-xl p-4" />
+                <input type="text" class="w-[350px] h-full bg-[#F5F4F8]  rounded-xl p-4" />
               </div>
               <div class="flex flex-col gap-2">
                 <label for="Qualification" class="font-bold">Share Availiblity</label>
-                <input type="text" class="w-[350px] h-[145px] bg-[#F5F4F8]  rounded-xl p-4" />
+                <input type="text" class="w-[350px] h-full bg-[#F5F4F8]  rounded-xl p-4" />
               </div>
             </div>
 
