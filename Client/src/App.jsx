@@ -16,11 +16,11 @@ function App() {
   const [isJobDescription, setIsJobDescription] = useState(false);
   const [isJobRound, setIsJobRound] = useState(false);
 
-  const [position, setPosition] = useState('');
+  const [position, setPosition] = useState('Software Developer');
   const [location, setLocation] = useState('Bengaluru');
   const [minSalary, setMinSalary] = useState('15000');
-  const [maxSalary, setMaxSalary] = useState('');
-  const [experience, setExperience] = useState('');
+  const [maxSalary, setMaxSalary] = useState('30000');
+  const [experience, setExperience] = useState('0 Years');
 
   const [jobs, setJobs] = useState([]);
 
@@ -57,6 +57,8 @@ function App() {
       maxSalary: maxSalary,
       experience: experience
     };
+
+    console.log(import.meta.env.BaseUrl);
 
     fetch('http://localhost:5000/save', {
       method: 'POST',
