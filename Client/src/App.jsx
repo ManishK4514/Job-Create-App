@@ -94,8 +94,8 @@ function App() {
 
   return (
     <>
-      <div className='flex flex-row w-screen h-screen'>
-        <div className='flex flex-col bg-[#1C212D] w-[306px] h-full p-5 gap-5'>
+      <div className='flex flex-row w-full h-full'>
+        <div className='flex flex-col bg-[#1C212D] w-[306px] max-h-[100000px] p-5 gap-5'>
           <div className='flex flex-row gap-2'>
             <img src={logo} alt="" srcset="" />
             <p className='text-white text-2xl font-bold'>Logo</p>
@@ -151,8 +151,7 @@ function App() {
               </div>
             </div>
           </div>
-
-          <div className=' grid grid-flow-rows grid-cols-4 gap-10 p-5'>
+          <div className=' grid grid-flow-rows grid-cols-2 terasotees:grid-cols-3 three:grid-cols-4 gap-10 p-5 lg:px-20'>
             {jobs && jobs.map(job => (
               <div className='w-[286px] h-[300px] bg-[#FFF] rounded-lg p-4 gap-4'>
                 <div className='flex flex-row justify-between my-3'>
@@ -233,7 +232,7 @@ function App() {
 
       {isJobApplication && (
         <div class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 p-8">
-          <div class="relative flex h-full w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10">
+          <div class="relative flex h-full w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10 overflow-y-scroll h-32 scrollbar scrollbar-thumb-[#00FFFFFF]-900 scrollbar-track-[##00FFFFFF]-100">
             <div class="flex w-full flex-row items-center text-2xl font-bold">
               <div class="grid w-full grid-cols-3">
                 <div></div>
@@ -339,7 +338,7 @@ function App() {
 
       {isJobDescription && (
         <div class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 p-11">
-          <div class="relative flex h-full w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10">
+          <div class="relative flex h-full w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10 overflow-y-scroll h-32 scrollbar scrollbar-thumb-[#00FFFFFF]-900 scrollbar-track-[##00FFFFFF]-100">
             <div class="flex w-full flex-row items-center text-2xl font-bold">
               <div class="grid w-full grid-cols-3">
                 <div></div>
@@ -399,7 +398,7 @@ function App() {
 
       {isJobRound && (
         <div class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black bg-opacity-50 p-11">
-          <div class="relative flex h-full w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10">
+          <div class="relative flex h-full w-[981px] flex-col items-center gap-5 rounded-3xl bg-white p-[30px] shadow-xl ring-1 ring-gray-900/5 m-10 overflow-y-scroll h-32 scrollbar scrollbar-thumb-[#00FFFFFF]-900 scrollbar-track-[##00FFFFFF]-100">
             <div class="flex w-full flex-row items-center text-2xl font-bold">
               <div class="grid w-full grid-cols-3">
                 <div></div>

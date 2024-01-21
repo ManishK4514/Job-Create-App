@@ -5,8 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        terasotees: "1330px",
+        three: '1600px',
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    // ...
+    require('tailwind-scrollbar')({ nocompatible: true }),
+  ],
 }
-
